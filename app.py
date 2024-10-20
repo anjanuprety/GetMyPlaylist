@@ -78,7 +78,7 @@ def get_all_tracks():
     df = pd.DataFrame(results, columns=["song names"])
     df.to_csv('songs.csv', index=False)
     
-    return "done"
+    return "All your saved songs have been saved to a CSV file!"
 
 # Checks if token is valid and refreshes it if expired
 def get_token():
@@ -105,8 +105,8 @@ def get_token():
 # Function to create the Spotify OAuth object for handling authentication
 def create_spotify_oauth():
     return SpotifyOAuth(
-        client_id="id",   
-        client_secret="secret",  
+        client_id="0de73a63a9774e7cbdf629fe17d8a575",   
+        client_secret="af747adcbdfd45cbb528d3ddb807ce55",  
         redirect_uri=url_for('authorize', _external=True),  
         scope="user-library-read"  # The scope (permission) to access the user's saved tracks
     )
