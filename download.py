@@ -15,26 +15,26 @@ import pandas
 import os
 
 def DownloadVideosFromTitles(los): 
-  # Initialize an empty list to store video IDs
-  ids = []
-  # Loop through the list of song titles
-  for item in los:
-    # Scrape the video ID for each song title
-    vid_id = ScrapeVidId(item)
-    # Append the video ID to the list if it's not None
-    if vid_id:
-        ids.append(vid_id)
-    else:
+    # Initialize an empty list to store video IDs
+    ids = []
+    # Loop through the list of song titles
+    for item in los:
+        # Scrape the video ID for each song title
+        vid_id = ScrapeVidId(item)
+        # Append the video ID to the list if it's not None
+        if vid_id:
+            ids.append(vid_id) #append the video id to the list
+        else:
             print(f"Skipping download for: {item}")
-  if ids:
+    if ids:
         print("Downloading songs")
-        DownloadVideosFromIds(ids)
-  else:
+        DownloadVideosFromIds(ids) 
+    else:
         print("No valid video IDs found.")
-  # Download videos using the list of video IDs
-  DownloadVideosFromIds(ids)
+    # Download videos using the list of video IDs
+    DownloadVideosFromIds(ids)
 
-def DownloadVideosFromIds(lov):
+def DownloadVideosFromIds(lov): #lov = list of video ids
     SAVE_PATH = str(os.path.join(Path.home(), "Downloads/songs"))
     try:
         os.mkdir(SAVE_PATH)
@@ -42,7 +42,7 @@ def DownloadVideosFromIds(lov):
         print("Download folder already exists")
     
     ydl_opts = {
-        'format': 'bestaudio/best',
+        'format': 'bestaudio/best', 
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -53,52 +53,44 @@ def DownloadVideosFromIds(lov):
     
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([f"https://www.youtube.com/watch?v={vid_id}" for vid_id in lov])
-  
-  # Use youtube_dl to download videos with the specified options
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-      ydl.download(lov)
 
 def ScrapeVidId(query):
     print("Getting video id for:", query)
-    BASIC = "https://www.youtube.com/results?search_query="
-    URL = BASIC + query.replace(" ", "+")
+
+    # Use the YouTube Data API to fetch video ID based on the song title
+    api_key = 'AIzaSyDVwArhRNSXLEcVBSegiEbDHdcM0QXJLZg'  # Replace with your YouTube API key
+    search_url = "https://www.googleapis.com/youtube/v3/search"
     
-    session = HTMLSession()
-    response = session.get(URL)
+    params = {
+        'part': 'snippet',
+        'q': query,
+        'key': api_key,
+        'type': 'video',
+        'maxResults': 1
+    }
     
-    try:
-        response.html.render(sleep=1)  # Render the page to load dynamic content
-    except Exception as e:
-        print(f"Error rendering page for {query}: {e}")
-        return None
+    response = requests.get(search_url, params=params)
     
-    soup = BeautifulSoup(response.html.html, "html.parser")
-    
-    # Find the first video result in the search
-    results = soup.find('a', href=True, title=True)
-    
-    if results and '/watch?v=' in results['href']:
-        # Extract the video ID from the href attribute
-        try:
-            video_id = results['href'].split('/watch?v=')[1].split('&')[0]
-            return video_id
-        except IndexError:
-            print(f"Could not extract video ID from href: {results['href']}")
+    if response.status_code == 200:
+        results = response.json().get('items')
+        if results:
+            return results[0]['id']['videoId']
+        else:
+            print(f"No video found for {query}")
             return None
     else:
-        print(f"No valid video link found for {query}")
+        print(f"Error fetching data from YouTube API: {response.status_code}")
         return None
 
 def __main__():
-  # Read the CSV file containing song names
-  data = pandas.read_csv('songs.csv')
-  # Convert the 'song names' column to a list
-  data = data['song names'].tolist()
-  print("Found ", len(data), " songs!")
-  # Download videos for the list of songs
-  DownloadVideosFromTitles(data)
+    # Read the CSV file containing song names
+    data = pandas.read_csv('songs.csv')
+    # Convert the 'song names' column to a list
+    data = data['song names'].tolist()
+    print("Found ", len(data), " songs!")
+    # Download videos for the list of songs
+    DownloadVideosFromTitles(data)
 
 # Check if the script is being run directly
 if __name__ == "__main__":
-  __main__()
-
+    __main__()
