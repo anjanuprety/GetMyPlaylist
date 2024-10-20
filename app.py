@@ -105,8 +105,8 @@ def get_token():
 # Function to create the Spotify OAuth object for handling authentication
 def create_spotify_oauth():
     return SpotifyOAuth(
-        client_id="0de73a63a9774e7cbdf629fe17d8a575",   
-        client_secret="af747adcbdfd45cbb528d3ddb807ce55",  
+        client_id="", # The client ID from the Spotify Developer Dashboard   
+        client_secret="", # The client secret from the Spotify Developer Dashboard  
         redirect_uri=url_for('authorize', _external=True),  
         scope="user-library-read"  # The scope (permission) to access the user's saved tracks
-    )
+    ) 

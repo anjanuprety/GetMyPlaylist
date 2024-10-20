@@ -35,7 +35,7 @@ def DownloadVideosFromTitles(los):
     DownloadVideosFromIds(ids)
 
 def DownloadVideosFromIds(lov): #lov = list of video ids
-    SAVE_PATH = str(os.path.join(Path.home(), "Downloads/songs"))
+    SAVE_PATH = str(os.path.join(Path.home(), "Downloads/songs")) #save path for the downloaded songs
     try:
         os.mkdir(SAVE_PATH)
     except FileExistsError:
@@ -58,7 +58,7 @@ def ScrapeVidId(query):
     print("Getting video id for:", query)
 
     # Use the YouTube Data API to fetch video ID based on the song title
-    api_key = 'AIzaSyDVwArhRNSXLEcVBSegiEbDHdcM0QXJLZg'  # Replace with your YouTube API key
+    api_key = '...'  # Replace with your YouTube API key
     search_url = "https://www.googleapis.com/youtube/v3/search"
     
     params = {
@@ -71,7 +71,7 @@ def ScrapeVidId(query):
     
     response = requests.get(search_url, params=params)
     
-    if response.status_code == 200:
+    if response.status_code == 200: # status code 200 means the request was successful
         results = response.json().get('items')
         if results:
             return results[0]['id']['videoId']
@@ -79,7 +79,7 @@ def ScrapeVidId(query):
             print(f"No video found for {query}")
             return None
     else:
-        print(f"Error fetching data from YouTube API: {response.status_code}")
+        print(f"Error fetching data from YouTube API: {response.status_code}") 
         return None
 
 def __main__():
