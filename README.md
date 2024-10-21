@@ -1,8 +1,8 @@
 
-# **MyMusicLibrary.mp3**  
+# **GetMyPlaylist.mp3**  
 
 ## **Overview**  
-**MyMusicLibrary.mp3** is a web-based Python application that integrates with the **Spotify API** to fetch a user’s saved tracks and downloads their corresponding YouTube versions as MP3 files. The project leverages **Flask** for web functionality, **Spotipy** for accessing the Spotify Web API, and **yt-dlp** to download media from YouTube. It provides a simple way to manage and archive your music offline.
+**GetMyPlaylist.mp3** is a web-based Python application that integrates with the **Spotify API** to fetch a user’s saved tracks and downloads their corresponding YouTube versions as MP3 files. The project leverages **Flask** for web functionality, **Spotipy** for accessing the Spotify Web API, and **yt-dlp** to download media from YouTube. It provides a simple way to manage and archive your music offline.
 
 ---
 
