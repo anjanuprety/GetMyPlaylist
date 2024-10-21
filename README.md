@@ -24,7 +24,6 @@ Ensure you have **Python 3.6+** installed on your system. Install the necessary 
 1. **Clone the repository**:
    ```bash
    git clone <repository_url>
-   cd MyMusicLibrary.mp3
    ```
 
 2. **Install dependencies** using the setup script:
@@ -110,7 +109,19 @@ setup(
     install_requires=required
 )
 ```
+**Install ffmpeg**
 
+The script uses yt-dlp and youtube_dl to download audio from YouTube, and they require ffmpeg to process and convert media files. You need to install ffmpeg on your system:
+
+	•	macOS:
+  ``` bash
+  brew install ffmpeg
+  ```
+  •	Linux:
+  ```bash
+  sudo apt update
+  sudo apt install ffmpeg
+  ```
 ---
 
 ## **How It Works**
@@ -134,11 +145,6 @@ setup(
 - **BeautifulSoup4**: HTML parsing library.  
 - **requests-html**: To handle HTTP requests and JavaScript rendering.  
 - **Pandas**: For CSV and data handling.  
-
-To install all dependencies manually:  
-```bash
-pip install -r requirements.txt
-```
 ---
 
 ## **Common Issues and Troubleshooting**
@@ -173,7 +179,6 @@ Contributions are welcome! Please follow these steps to contribute:
 2. **Clone your fork** locally:
   ```bash
   git clone <your_fork_url>
-  cd MyMusicLibrary.mp3
   ```
 3. **Create a new branch** for your feature or bugfix:
   ```bash
