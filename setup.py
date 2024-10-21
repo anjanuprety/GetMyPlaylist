@@ -22,4 +22,4 @@ setup(
     packages=find_packages(),
     include_package_data= True,
     install_requires= required
-) #setting up the app with the required packages and the author details
+) #setting up the app with the required packages and the author details.
